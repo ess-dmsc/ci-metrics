@@ -44,7 +44,7 @@ builders = pipeline_builder.createBuilders { container ->
 
         container.sh """
           cd ${pipeline_builder.project}/scripts
-          python jenkinsmetrics.py -r ${repo} -b ${build_number}
+          python jenkinsmetrics.py -r ${repo} -b ${build_number} -g 192.168.12.33
         """
       } else {
         // Ignore build causes such as pushing to this repository

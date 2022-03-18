@@ -1,5 +1,6 @@
 import json, requests, sys
 import argparse
+import graphyte
 
 #
 # # Helper functions
@@ -74,9 +75,19 @@ def getmetrics(repo, buildid):
         url = makeurl(repo, buildid, query[1])
         metrics += getjson(repo, query[0], url, query[2])
 
-    for metric in metrics:
-        print("echo '{} {}' | nc 172.30.242.21 2003".format(metric, datesecs))
+    return metrics, datesecs
 
+    print("Metrics collected:")
+    for metric in metrics:
+        print("    '{}' {}".format(metric, datesecs))
+
+
+def sendmetrics(metrics_and_values, timestamp, carbon_server):
+    graphyte.init(carbon_server)
+
+    for mv in metrics_and_values:
+        metric, value = mv.split()
+        graphyte.send(metric, value, timestamp)
 
 
 # Queries that return metrics that are reported at top level and which
@@ -98,8 +109,11 @@ if __name__ == '__main__':
                        type = str, default = "event-formation-unit")
     parser.add_argument("-b", metavar='buildid', help = "Jenkins build id",
                        type = int, required = True)
+    parser.add_argument("-g", metavar='carbonserver', help = "Carbon server",
+                       type = str, default = "localhost")
     args = parser.parse_args()
 
     print("{}, {}".format(args.r, args.b))
 
-    getmetrics(args.r, args.b)
+    metrics, timestamp = getmetrics(args.r, args.b)
+    sendmetrics(metrics, timestamp, args.g)
