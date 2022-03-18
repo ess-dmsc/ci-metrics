@@ -32,8 +32,12 @@ builders = pipeline_builder.createBuilders { container ->
     causes = currentBuild.getBuildCauses()
     cause = causes[0]
 
-    // upstreamProject is ORG/JOB/BRANCH
-    repo = cause["upstreamProject"].tokenize("/")[1]
+    if(repo) {
+      // upstreamProject is ORG/JOB/BRANCH
+      repo = cause["upstreamProject"].tokenize("/")[1]
+    } else {
+      error "upstreamProject is null"
+    }
     build_number = cause["upstreamBuild"]
 
     container.sh """
