@@ -44,7 +44,7 @@ builders = pipeline_builder.createBuilders { container ->
 
         container.sh """
           cd ${pipeline_builder.project}/scripts
-          python jenkinsmetrics.py ${repo} ${build_number}
+          python jenkinsmetrics.py -r ${repo} -b ${build_number}
         """
       } else {
         echo "Ignoring build cause ${c_class}"
