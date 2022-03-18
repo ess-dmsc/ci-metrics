@@ -28,6 +28,10 @@ builders = pipeline_builder.createBuilders { container ->
     container.copyTo(pipeline_builder.project, pipeline_builder.project)
   }  // stage
 
+  pipeline_builder.stage("${container.key}: dependencies") {
+    container.sh "python -m pip install --user requests"
+  }  // stage
+
   pipeline_builder.stage("${container.key}: script") {
     causes = currentBuild.getBuildCauses()
     cause = causes[0]
