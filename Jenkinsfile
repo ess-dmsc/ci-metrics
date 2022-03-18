@@ -38,7 +38,7 @@ builders = pipeline_builder.createBuilders { container ->
     for (c in causes) {
       c_class = c["_class"]
       if (c_class == 'hudson.model.Cause$UpstreamCause') {
-        // upstreamProject is ORG/JOB/BRANCH
+        // upstreamProject is ORG/REPO/BRANCH
         repo = c["upstreamProject"].tokenize("/")[1]
         build_number = c["upstreamBuild"]
 
