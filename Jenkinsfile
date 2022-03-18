@@ -47,6 +47,7 @@ builders = pipeline_builder.createBuilders { container ->
           python jenkinsmetrics.py -r ${repo} -b ${build_number}
         """
       } else {
+        // Ignore build causes such as pushing to this repository
         echo "Ignoring build cause ${c_class}"
       }  // if/else
     }  // for
