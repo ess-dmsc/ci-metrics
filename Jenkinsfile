@@ -2,10 +2,6 @@
 import ecdcpipeline.ContainerBuildNode
 import ecdcpipeline.PipelineBuilder
 
-container_build_nodes = [
-  'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8')
-]
-
 properties([
   disableConcurrentBuilds(),
   pipelineTriggers([
@@ -16,6 +12,10 @@ properties([
     ]
   ])
 ])
+
+container_build_nodes = [
+  'centos7': ContainerBuildNode.getDefaultContainerBuildNode('centos7-gcc8')
+]
 
 pipeline_builder = new PipelineBuilder(this, container_build_nodes)
 builders = pipeline_builder.createBuilders { container ->
