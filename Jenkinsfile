@@ -34,22 +34,20 @@ builders = pipeline_builder.createBuilders { container ->
 
   pipeline_builder.stage("${container.key}: script") {
     causes = currentBuild.getBuildCauses()
-    cause = causes[0]
 
-    upstream = cause["upstreamProject"]
-    if(upstream) {
-      // upstreamProject is ORG/JOB/BRANCH
-      repo = upstream.tokenize("/")[1]
-    } else {
-      error "Error: failed to identify upstream project"
-    }
-    build_number = cause["upstreamBuild"]
+    for (c in causes) {
+      if (c["_class"] == 'hudson.model.Cause$UpstreamCause') {
+        // upstreamProject is ORG/JOB/BRANCH
+        repo = cause["upstreamProject"].tokenize("/")[1]
+        build_number = cause["upstreamBuild"]
 
-    container.sh """
-      cd ${pipeline_builder.project}/scripts
-      python jenkinsmetrics.py ${repo} ${build_number}
-    """
-  }
+        container.sh """
+          cd ${pipeline_builder.project}/scripts
+          python jenkinsmetrics.py ${repo} ${build_number}
+        """
+      }  // if
+    }  // for
+  }  // stage
 
 }
 
