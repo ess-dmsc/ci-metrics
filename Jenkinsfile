@@ -38,8 +38,8 @@ builders = pipeline_builder.createBuilders { container ->
     for (c in causes) {
       if (c["_class"] == 'hudson.model.Cause$UpstreamCause') {
         // upstreamProject is ORG/JOB/BRANCH
-        repo = cause["upstreamProject"].tokenize("/")[1]
-        build_number = cause["upstreamBuild"]
+        repo = c["upstreamProject"].tokenize("/")[1]
+        build_number = c["upstreamBuild"]
 
         container.sh """
           cd ${pipeline_builder.project}/scripts
