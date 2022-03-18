@@ -36,7 +36,8 @@ builders = pipeline_builder.createBuilders { container ->
     causes = currentBuild.getBuildCauses()
 
     for (c in causes) {
-      if (c["_class"] == 'hudson.model.Cause$UpstreamCause') {
+      c_class = c["_class"]
+      if (c_class == 'hudson.model.Cause$UpstreamCause') {
         // upstreamProject is ORG/JOB/BRANCH
         repo = c["upstreamProject"].tokenize("/")[1]
         build_number = c["upstreamBuild"]
@@ -45,7 +46,9 @@ builders = pipeline_builder.createBuilders { container ->
           cd ${pipeline_builder.project}/scripts
           python jenkinsmetrics.py ${repo} ${build_number}
         """
-      }  // if
+      } else {
+        echo "Ignoring build cause ${c_class}"
+      }  // if/else
     }  // for
   }  // stage
 
