@@ -17,6 +17,7 @@ properties([
   ])
 ])
 
+pipeline_builder = new PipelineBuilder(this, container_build_nodes)
 builders = pipeline_builder.createBuilders { container ->
 
   pipeline_builder.stage("${container.key}: checkout") {
