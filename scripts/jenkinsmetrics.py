@@ -87,7 +87,7 @@ def sendmetrics(metrics_and_values, timestamp, carbon_server):
 
     for mv in metrics_and_values:
         metric, value = mv.split()
-        graphyte.send(metric, value, timestamp)
+        graphyte.send(metric, int(value), timestamp)
 
 
 # Queries that return metrics that are reported at top level and which
