@@ -37,7 +37,7 @@ builders = pipeline_builder.createBuilders { container ->
       // upstreamProject is ORG/JOB/BRANCH
       repo = upstream.tokenize("/")[1]
     } else {
-      error "upstreamProject is null"
+      error "Error: failed to identify upstream project"
     }
     build_number = cause["upstreamBuild"]
 
