@@ -32,9 +32,10 @@ builders = pipeline_builder.createBuilders { container ->
     causes = currentBuild.getBuildCauses()
     cause = causes[0]
 
-    if(repo) {
+    upstream = cause["upstreamProject"]
+    if(upstream) {
       // upstreamProject is ORG/JOB/BRANCH
-      repo = cause["upstreamProject"].tokenize("/")[1]
+      repo = upstream.tokenize("/")[1]
     } else {
       error "upstreamProject is null"
     }
