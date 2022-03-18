@@ -29,7 +29,7 @@ builders = pipeline_builder.createBuilders { container ->
   }  // stage
 
   pipeline_builder.stage("${container.key}: dependencies") {
-    container.sh "python -m pip install --user requests"
+    container.sh "python -m pip install --user -r ${pipeline_builder.project}/requirements.txt"
   }  // stage
 
   pipeline_builder.stage("${container.key}: script") {
