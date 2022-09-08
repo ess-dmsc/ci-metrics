@@ -84,7 +84,7 @@ def getmetrics(repo, buildid):
 queries = [
             ['test',     'testReport',      ['passCount', 'failCount', 'skipCount']],
             ['sloc',     'sloccountResult', ['totalFiles', 'totalLines']],
-            ['cppcheck', 'warnings2Result', ['numberOfWarnings', 'numberOfNewWarnings']]
+            ['cppcheck', 'cppcheck', ['totalSize', 'newSize']]
         ]
 
 #ids = [637, 636]
